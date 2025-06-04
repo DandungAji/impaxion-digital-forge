@@ -1,7 +1,7 @@
 
 import React, { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Sphere, Box, Torus, Float, MeshDistortMaterial } from '@react-three/drei';
+import { Float } from '@react-three/drei';
 import * as THREE from 'three';
 
 const AnimatedSphere = () => {
@@ -16,14 +16,14 @@ const AnimatedSphere = () => {
 
   return (
     <Float speed={2} rotationIntensity={1} floatIntensity={2}>
-      <Sphere ref={meshRef} args={[1, 64, 64]} position={[2, 0, 0]}>
-        <MeshDistortMaterial
+      <mesh ref={meshRef} position={[2, 0, 0]}>
+        <sphereGeometry args={[1, 32, 32]} />
+        <meshStandardMaterial
           color="#DC2626"
-          distort={0.4}
-          speed={2}
           roughness={0.1}
+          metalness={0.8}
         />
-      </Sphere>
+      </mesh>
     </Float>
   );
 };
@@ -40,7 +40,8 @@ const AnimatedBox = () => {
 
   return (
     <Float speed={1.5} rotationIntensity={0.5} floatIntensity={1.5}>
-      <Box ref={meshRef} args={[1, 1, 1]} position={[-2, 0, 0]}>
+      <mesh ref={meshRef} position={[-2, 0, 0]}>
+        <boxGeometry args={[1, 1, 1]} />
         <meshStandardMaterial
           color="#ffffff"
           metalness={0.8}
@@ -48,7 +49,7 @@ const AnimatedBox = () => {
           emissive="#DC2626"
           emissiveIntensity={0.1}
         />
-      </Box>
+      </mesh>
     </Float>
   );
 };
@@ -65,7 +66,8 @@ const AnimatedTorus = () => {
 
   return (
     <Float speed={2.5} rotationIntensity={1.5} floatIntensity={3}>
-      <Torus ref={meshRef} args={[0.6, 0.2, 16, 32]} position={[0, 1.5, 0]}>
+      <mesh ref={meshRef} position={[0, 1.5, 0]}>
+        <torusGeometry args={[0.6, 0.2, 16, 32]} />
         <meshStandardMaterial
           color="#EF4444"
           metalness={0.9}
@@ -73,7 +75,7 @@ const AnimatedTorus = () => {
           emissive="#DC2626"
           emissiveIntensity={0.2}
         />
-      </Torus>
+      </mesh>
     </Float>
   );
 };
