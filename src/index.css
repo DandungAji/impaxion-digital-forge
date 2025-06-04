@@ -1,4 +1,5 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -59,6 +60,10 @@
   html {
     scroll-behavior: smooth;
   }
+
+  .elegant-font {
+    font-family: 'Playfair Display', serif;
+  }
 }
 
 @layer components {
@@ -80,5 +85,27 @@
 
   .parallax-container {
     @apply relative overflow-hidden;
+  }
+
+  .cta-button {
+    @apply relative px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 text-white font-bold rounded-lg 
+           transition-all duration-300 hover:from-red-700 hover:to-red-800 hover:scale-105 
+           hover:shadow-2xl hover:shadow-red-500/50 transform-gpu;
+  }
+
+  .cta-button::before {
+    @apply absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 
+           transition-opacity duration-300 rounded-lg;
+    content: '';
+  }
+
+  .cta-button:hover::before {
+    @apply opacity-100;
+  }
+
+  .service-icon {
+    @apply w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-red-600/20 to-red-800/20 
+           border border-red-500/30 flex items-center justify-center text-2xl 
+           group-hover:scale-110 group-hover:border-red-400 transition-all duration-300;
   }
 }
