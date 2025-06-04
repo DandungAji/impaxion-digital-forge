@@ -1,5 +1,5 @@
 
-import React, { useRef, useMemo } from 'react';
+import React, { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Sphere, Box, Torus, Float, MeshDistortMaterial } from '@react-three/drei';
 import * as THREE from 'three';
@@ -19,7 +19,6 @@ const AnimatedSphere = () => {
       <Sphere ref={meshRef} args={[1, 64, 64]} position={[2, 0, 0]}>
         <MeshDistortMaterial
           color="#DC2626"
-          attach="material"
           distort={0.4}
           speed={2}
           roughness={0.1}
@@ -80,17 +79,14 @@ const AnimatedTorus = () => {
 };
 
 const Scene3D: React.FC = () => {
-  const ambientLightIntensity = 0.3;
-  const pointLightIntensity = 1;
-
   return (
     <div className="w-full h-full">
       <Canvas
         camera={{ position: [0, 0, 5], fov: 60 }}
         className="w-full h-full"
       >
-        <ambientLight intensity={ambientLightIntensity} />
-        <pointLight position={[10, 10, 10]} intensity={pointLightIntensity} color="#DC2626" />
+        <ambientLight intensity={0.3} />
+        <pointLight position={[10, 10, 10]} intensity={1} color="#DC2626" />
         <pointLight position={[-10, -10, -10]} intensity={0.5} color="#ffffff" />
         
         <AnimatedSphere />
