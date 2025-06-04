@@ -6,6 +6,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 const ServicesSection: React.FC = () => {
   const { t } = useLanguage();
 
+  // Add error handling for translation function
+  const safeTranslate = (key: string) => {
+    try {
+      return t(key) || key;
+    } catch (error) {
+      console.error(`Translation error for key: ${key}`, error);
+      return key;
+    }
+  };
+
   const services = [
     {
       key: 'web',
@@ -72,10 +82,10 @@ const ServicesSection: React.FC = () => {
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-5xl font-bold gradient-text mb-6">
-            {t('services.title')}
+            {safeTranslate('services.title')}
           </h2>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            {t('services.subtitle')}
+            {safeTranslate('services.subtitle')}
           </p>
         </div>
 
@@ -92,12 +102,12 @@ const ServicesSection: React.FC = () => {
                   {service.icon}
                 </div>
                 <CardTitle className="text-xl font-bold text-white group-hover:text-red-400 transition-colors duration-300">
-                  {t(`services.${service.key}.title`)}
+                  {safeTranslate(`services.${service.key}.title`)}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-gray-400 text-center group-hover:text-gray-300 transition-colors duration-300">
-                  {t(`services.${service.key}.description`)}
+                  {safeTranslate(`services.${service.key}.description`)}
                 </CardDescription>
               </CardContent>
             </Card>

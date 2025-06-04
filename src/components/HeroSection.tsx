@@ -32,6 +32,16 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setActiveSection }) => {
     }
   };
 
+  // Add error handling for translation function
+  const safeTranslate = (key: string) => {
+    try {
+      return t(key) || key;
+    } catch (error) {
+      console.error(`Translation error for key: ${key}`, error);
+      return key;
+    }
+  };
+
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Animated Background */}
@@ -69,15 +79,15 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setActiveSection }) => {
         <div className="space-y-8 animate-slide-in-left">
           <div className="space-y-4">
             <h1 className="text-6xl md:text-8xl font-bold">
-              <span className="gradient-text">{t('hero.title')}</span>
+              <span className="gradient-text">{safeTranslate('hero.title')}</span>
             </h1>
             <h2 className="text-2xl md:text-3xl text-gray-300 font-light">
-              {t('hero.subtitle')}
+              {safeTranslate('hero.subtitle')}
             </h2>
           </div>
 
           <p className="text-lg text-gray-400 leading-relaxed max-w-2xl">
-            {t('hero.description')}
+            {safeTranslate('hero.description')}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
@@ -85,14 +95,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setActiveSection }) => {
               onClick={() => scrollToSection('services')}
               className="px-8 py-4 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/25 hover:scale-105"
             >
-              {t('hero.cta')}
+              {safeTranslate('hero.cta')}
             </Button>
             <Button
               onClick={() => scrollToSection('contact')}
               variant="outline"
               className="px-8 py-4 border-red-500 text-red-500 hover:bg-red-500 hover:text-white font-semibold rounded-lg transition-all duration-300"
             >
-              {t('hero.contact')}
+              {safeTranslate('hero.contact')}
             </Button>
           </div>
         </div>
@@ -100,15 +110,15 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setActiveSection }) => {
         {/* Stats Section */}
         <div className="lg:block hidden animate-slide-in-right">
           <div className="glass-card p-8 rounded-2xl space-y-6">
-            <h3 className="text-2xl font-bold gradient-text">{t('about.title')}</h3>
-            <p className="text-gray-300">{t('about.description')}</p>
+            <h3 className="text-2xl font-bold gradient-text">{safeTranslate('about.title')}</h3>
+            <p className="text-gray-300">{safeTranslate('about.description')}</p>
             
             <div className="grid grid-cols-2 gap-4">
               {[
-                { value: '100+', label: t('about.stat1') },
-                { value: '50+', label: t('about.stat2') },
-                { value: '8+', label: t('about.stat3') },
-                { value: '5+', label: t('about.stat4') },
+                { value: '100+', label: safeTranslate('about.stat1') },
+                { value: '50+', label: safeTranslate('about.stat2') },
+                { value: '8+', label: safeTranslate('about.stat3') },
+                { value: '5+', label: safeTranslate('about.stat4') },
               ].map((stat, index) => (
                 <div key={index} className="text-center p-4 glass-effect rounded-lg">
                   <div className="text-2xl font-bold text-red-500">{stat.value}</div>

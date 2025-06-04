@@ -28,6 +28,16 @@ const Header: React.FC<HeaderProps> = ({ activeSection, setActiveSection }) => {
     }
   };
 
+  // Add error handling for translation function
+  const safeTranslate = (key: string) => {
+    try {
+      return t(key) || key;
+    } catch (error) {
+      console.error(`Translation error for key: ${key}`, error);
+      return key;
+    }
+  };
+
   return (
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -54,7 +64,7 @@ const Header: React.FC<HeaderProps> = ({ activeSection, setActiveSection }) => {
                   activeSection === section ? 'text-red-500' : 'text-white'
                 }`}
               >
-                {t(`nav.${section}`)}
+                {safeTranslate(`nav.${section}`)}
                 {activeSection === section && (
                   <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-500 animate-scale-in" />
                 )}
