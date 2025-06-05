@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { useNavigate, useLocation } from 'react-router-dom';
 
 interface HeaderProps {
   activeSection: string;
@@ -11,8 +10,6 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ activeSection, setActiveSection }) => {
   const { language, setLanguage, t } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
-  const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,10 +20,15 @@ const Header: React.FC<HeaderProps> = ({ activeSection, setActiveSection }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navigateToPage = (path: string) => {
-    navigate(path);
+  const scrollToSection = (sectionId: string) => {
+    setActiveSection(sectionId);
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
+  // Add error handling for translation function
   const safeTranslate = (key: string) => {
     try {
       return t(key) || key;
@@ -35,21 +37,6 @@ const Header: React.FC<HeaderProps> = ({ activeSection, setActiveSection }) => {
       return key;
     }
   };
-
-  const getActiveRoute = () => {
-    switch (location.pathname) {
-      case '/':
-        return 'home';
-      case '/services':
-        return 'services';
-      case '/contact':
-        return 'contact';
-      default:
-        return 'home';
-    }
-  };
-
-  const currentRoute = getActiveRoute();
 
   return (
     <header 
@@ -62,27 +49,23 @@ const Header: React.FC<HeaderProps> = ({ activeSection, setActiveSection }) => {
           {/* Logo */}
           <div 
             className="text-2xl font-bold gradient-text cursor-pointer transition-transform duration-300 hover:scale-105"
-            onClick={() => navigateToPage('/')}
+            onClick={() => scrollToSection('home')}
           >
             IMPAXION
           </div>
 
           {/* Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            {[
-              { key: 'home', path: '/' },
-              { key: 'services', path: '/services' },
-              { key: 'contact', path: '/contact' }
-            ].map((item) => (
+            {['home', 'services', 'contact'].map((section) => (
               <button
-                key={item.key}
-                onClick={() => navigateToPage(item.path)}
+                key={section}
+                onClick={() => scrollToSection(section)}
                 className={`relative py-2 px-4 transition-all duration-300 hover:text-red-500 ${
-                  currentRoute === item.key ? 'text-red-500' : 'text-white'
+                  activeSection === section ? 'text-red-500' : 'text-white'
                 }`}
               >
-                {safeTranslate(`nav.${item.key}`)}
-                {currentRoute === item.key && (
+                {safeTranslate(`nav.${section}`)}
+                {activeSection === section && (
                   <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-500 animate-scale-in" />
                 )}
               </button>
