@@ -26,7 +26,13 @@ const features = [
       "Custom websites and web applications built with modern technologies and best practices.",
     href: "/",
     cta: "Learn more",
-    background: <img className="absolute -right-20 -top-20 opacity-60" />,
+    background: (
+      <img
+        src="/images/web-dev.jpg"
+        alt="Web Development"
+        className="absolute h-full w-full object-cover opacity-60"
+      />
+    ),
     className: "lg:row-start-1 lg:row-end-4 lg:col-start-2 lg:col-end-3",
   },
   {
@@ -36,7 +42,13 @@ const features = [
       "Professional photography services for products, events, and corporate needs.",
     href: "/",
     cta: "Learn more",
-    background: <img className="absolute -right-20 -top-20 opacity-60" />,
+    background: (
+      <img
+        src="/images/photo.jpg"
+        alt="Photography"
+        className="absolute h-full w-full object-cover opacity-60"
+      />
+    ),
     className: "lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-3",
   },
   {
@@ -46,7 +58,13 @@ const features = [
       "Native and cross-platform mobile applications for iOS and Android.",
     href: "/",
     cta: "Learn more",
-    background: <img className="absolute -right-20 -top-20 opacity-60" />,
+    background: (
+      <img
+        src="/images/mob-dev.jpg"
+        alt="Mobil Development"
+        className="absolute h-full w-full object-cover opacity-60"
+      />
+    ),
     className: "lg:col-start-1 lg:col-end-2 lg:row-start-3 lg:row-end-4",
   },
   {
@@ -56,7 +74,13 @@ const features = [
       "Professional circuit board design for electronic devices and IoT solutions.",
     href: "/",
     cta: "Learn more",
-    background: <img className="absolute -right-20 -top-20 opacity-60" />,
+    background: (
+      <img
+        src="/images/pcb.jpg"
+        alt="PCB Design"
+        className="absolute h-full w-full object-cover opacity-60"
+      />
+    ),
     className: "lg:col-start-3 lg:col-end-3 lg:row-start-1 lg:row-end-2",
   },
   {
@@ -66,7 +90,13 @@ const features = [
       "User-centered design solutions that create engaging and intuitive experiences.",
     href: "/",
     cta: "Learn more",
-    background: <img className="absolute -right-20 -top-20 opacity-60" />,
+    background: (
+      <img
+        src="/images/ui-design.png"
+        alt="UI/UX Design"
+        className="absolute h-full w-full object-cover opacity-60"
+      />
+    ),
     className: "lg:col-start-3 lg:col-end-3 lg:row-start-2 lg:row-end-4",
   },
 ];

@@ -1,6 +1,16 @@
-
-import React, { useState, useEffect } from 'react';
-import { useLanguage } from '../contexts/LanguageContext';
+import React, { useState, useEffect } from "react";
+import { useLanguage } from "../contexts/LanguageContext";
+import {
+  Navbar,
+  NavBody,
+  NavItems,
+  MobileNav,
+  NavbarLogo,
+  NavbarButton,
+  MobileNavHeader,
+  MobileNavToggle,
+  MobileNavMenu,
+} from "@/components/ui/resizable-navbar";
 
 interface HeaderProps {
   activeSection: string;
@@ -16,15 +26,15 @@ const Header: React.FC<HeaderProps> = ({ activeSection, setActiveSection }) => {
       setIsScrolled(window.scrollY > 50);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const scrollToSection = (sectionId: string) => {
     setActiveSection(sectionId);
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -38,30 +48,129 @@ const Header: React.FC<HeaderProps> = ({ activeSection, setActiveSection }) => {
     }
   };
 
+  const navItems = [
+    {
+      name: "Home",
+      link: "home",
+    },
+    {
+      name: "Services",
+      link: "services",
+    },
+    {
+      name: "Contact",
+      link: "contact",
+    },
+  ];
+
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
-    <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'glass-effect shadow-lg' : 'bg-transparent'
-      }`}
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300`}
     >
-      <div className="container mx-auto px-6 py-4">
+      <Navbar>
+        {/* Desktop Navigation */}
+        <NavBody>
+          <NavbarLogo />
+          <NavItems items={navItems} />
+          <div className="flex items-center gap-2">
+            <NavbarButton
+              variant="primary"
+              onClick={() => setLanguage("en")}
+              className={`px-3 py-1 rounded transition-all duration-300 ${
+                language === "en"
+                  ? "bg-red-500 text-white"
+                  : "text-gray-400 hover:text-white"
+              }`}
+            >
+              EN
+            </NavbarButton>
+            <span className="text-gray-500">|</span>
+            <NavbarButton
+              variant="primary"
+              onClick={() => setLanguage("id")}
+              className={`px-3 py-1 rounded transition-all duration-300 ${
+                language === "id"
+                  ? "bg-red-500 text-white"
+                  : "text-gray-400 hover:text-white"
+              }`}
+            >
+              ID
+            </NavbarButton>
+          </div>
+        </NavBody>
+
+        {/* Mobile Navigation */}
+        <MobileNav>
+          <MobileNavHeader>
+            <NavbarLogo />
+            <MobileNavToggle
+              isOpen={isMobileMenuOpen}
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            />
+          </MobileNavHeader>
+
+          <MobileNavMenu
+            isOpen={isMobileMenuOpen}
+            onClose={() => setIsMobileMenuOpen(false)}
+          >
+            {navItems.map((item, idx) => (
+              <a
+                key={`mobile-link-${idx}`}
+                href={item.link}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="relative text-neutral-600 dark:text-neutral-300"
+              >
+                <span className="block">{item.name}</span>
+              </a>
+            ))}
+            <div className="flex items-center gap-2">
+              <NavbarButton
+                variant="primary"
+                onClick={() => setLanguage("en")}
+                className={`px-3 py-1 rounded transition-all duration-300 ${
+                  language === "en"
+                    ? "bg-red-500 text-white"
+                    : "text-gray-400 hover:text-white"
+                }`}
+              >
+                EN
+              </NavbarButton>
+              <span className="text-gray-500">|</span>
+              <NavbarButton
+                variant="primary"
+                onClick={() => setLanguage("id")}
+                className={`px-3 py-1 rounded transition-all duration-300 ${
+                  language === "id"
+                    ? "bg-red-500 text-white"
+                    : "text-gray-400 hover:text-white"
+                }`}
+              >
+                ID
+              </NavbarButton>
+            </div>
+          </MobileNavMenu>
+        </MobileNav>
+      </Navbar>
+
+      {/* Old Nav */}
+      {/* <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo */}
-          <div 
+          <div
             className="text-2xl font-bold gradient-text cursor-pointer transition-transform duration-300 hover:scale-105"
-            onClick={() => scrollToSection('home')}
+            onClick={() => scrollToSection("home")}
           >
             IMPAXION
           </div>
 
-          {/* Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            {['home', 'services', 'contact'].map((section) => (
+            {["home", "services", "contact"].map((section) => (
               <button
                 key={section}
                 onClick={() => scrollToSection(section)}
                 className={`relative py-2 px-4 transition-all duration-300 hover:text-red-500 ${
-                  activeSection === section ? 'text-red-500' : 'text-white'
+                  activeSection === section ? "text-red-500" : "text-white"
                 }`}
               >
                 {safeTranslate(`nav.${section}`)}
@@ -71,33 +180,8 @@ const Header: React.FC<HeaderProps> = ({ activeSection, setActiveSection }) => {
               </button>
             ))}
           </nav>
-
-          {/* Language Switcher */}
-          <div className="flex items-center space-x-2">
-            <button
-              onClick={() => setLanguage('en')}
-              className={`px-3 py-1 rounded transition-all duration-300 ${
-                language === 'en' 
-                  ? 'bg-red-500 text-white' 
-                  : 'text-gray-400 hover:text-white'
-              }`}
-            >
-              EN
-            </button>
-            <span className="text-gray-500">|</span>
-            <button
-              onClick={() => setLanguage('id')}
-              className={`px-3 py-1 rounded transition-all duration-300 ${
-                language === 'id' 
-                  ? 'bg-red-500 text-white' 
-                  : 'text-gray-400 hover:text-white'
-              }`}
-            >
-              ID
-            </button>
-          </div>
         </div>
-      </div>
+      </div> */}
     </header>
   );
 };
