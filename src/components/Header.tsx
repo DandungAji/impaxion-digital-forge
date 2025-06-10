@@ -19,51 +19,28 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ activeSection, setActiveSection }) => {
   const { language, setLanguage, t } = useLanguage();
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const scrollToSection = (sectionId: string) => {
-    setActiveSection(sectionId);
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  // Add error handling for translation function
-  const safeTranslate = (key: string) => {
-    try {
-      return t(key) || key;
-    } catch (error) {
-      console.error(`Translation error for key: ${key}`, error);
-      return key;
-    }
-  };
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navItems = [
     {
-      name: "Home",
+      name: t("nav.home"),
       link: "home",
     },
     {
-      name: "Services",
+      name: t("nav.services"),
       link: "services",
     },
     {
-      name: "Contact",
+      name: t("nav.contact"),
       link: "contact",
     },
   ];
 
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const handleNavClick = (sectionId: string) => {
+    setActiveSection(sectionId);
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+    setIsMobileMenuOpen(false);
+  };
 
   return (
     <header
@@ -73,7 +50,11 @@ const Header: React.FC<HeaderProps> = ({ activeSection, setActiveSection }) => {
         {/* Desktop Navigation */}
         <NavBody>
           <NavbarLogo />
-          <NavItems items={navItems} />
+          <NavItems
+            items={navItems}
+            activeItem={activeSection}
+            onItemClick={handleNavClick}
+          />
           <div className="flex items-center gap-2">
             <NavbarButton
               variant="primary"
@@ -81,7 +62,7 @@ const Header: React.FC<HeaderProps> = ({ activeSection, setActiveSection }) => {
               className={`px-3 py-1 rounded transition-all duration-300 ${
                 language === "en"
                   ? "bg-red-500 text-white"
-                  : "text-gray-400 hover:text-white"
+                  : "text-gray-400 hover:text-red-600"
               }`}
             >
               EN
@@ -93,7 +74,7 @@ const Header: React.FC<HeaderProps> = ({ activeSection, setActiveSection }) => {
               className={`px-3 py-1 rounded transition-all duration-300 ${
                 language === "id"
                   ? "bg-red-500 text-white"
-                  : "text-gray-400 hover:text-white"
+                  : "text-gray-400 hover:text-red-600"
               }`}
             >
               ID
@@ -118,9 +99,14 @@ const Header: React.FC<HeaderProps> = ({ activeSection, setActiveSection }) => {
             {navItems.map((item, idx) => (
               <a
                 key={`mobile-link-${idx}`}
-                href={item.link}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="relative text-neutral-600 dark:text-neutral-300"
+                href={`#${item.link}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavClick(item.link);
+                }}
+                className={`relative text-neutral-600 dark:text-neutral-300 ${
+                  activeSection === item.link ? "font-bold text-red-500" : ""
+                }`}
               >
                 <span className="block">{item.name}</span>
               </a>
@@ -153,35 +139,6 @@ const Header: React.FC<HeaderProps> = ({ activeSection, setActiveSection }) => {
           </MobileNavMenu>
         </MobileNav>
       </Navbar>
-
-      {/* Old Nav */}
-      {/* <div className="container mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div
-            className="text-2xl font-bold gradient-text cursor-pointer transition-transform duration-300 hover:scale-105"
-            onClick={() => scrollToSection("home")}
-          >
-            IMPAXION
-          </div>
-
-          <nav className="hidden md:flex items-center space-x-8">
-            {["home", "services", "contact"].map((section) => (
-              <button
-                key={section}
-                onClick={() => scrollToSection(section)}
-                className={`relative py-2 px-4 transition-all duration-300 hover:text-red-500 ${
-                  activeSection === section ? "text-red-500" : "text-white"
-                }`}
-              >
-                {safeTranslate(`nav.${section}`)}
-                {activeSection === section && (
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-500 animate-scale-in" />
-                )}
-              </button>
-            ))}
-          </nav>
-        </div>
-      </div> */}
     </header>
   );
 };

@@ -49,20 +49,7 @@ const Index: React.FC = () => {
           <ContactSection />
         </main>
 
-        <Footer />
-
-        {/* Footer */}
-        {/* <footer className="bg-black border-t border-white/10 py-8">
-          <div className="container mx-auto px-6 text-center">
-            <div className="text-2xl font-bold gradient-text mb-4">
-              IMPAXION
-            </div>
-            <p className="text-gray-400">
-              © 2024 Impaxion. All rights reserved. Crafted with passion and
-              precision.
-            </p>
-          </div>
-        </footer> */}
+        <Footer setActiveSection={setActiveSection} />
         <SmoothCursor />
         {/* <Pointer /> */}
       </div>
