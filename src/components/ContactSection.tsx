@@ -63,7 +63,7 @@ const ContactSection: React.FC = () => {
       <div className="container mx-auto px-6 relative z-10">
         {/* Enhanced Header */}
         <div
-          className="text-center mb-20 animate-fade-in"
+          className="text-center mb-32 animate-fade-in"
           style={{
             transform: `translateY(${scrollY * 0.05}px)`,
           }}
@@ -151,7 +151,7 @@ const ContactSection: React.FC = () => {
           <div
             className="space-y-8 animate-slide-in-right"
             style={{
-              transform: `translateY(${scrollY * -0.02}px)`,
+              transform: `translateY(${scrollY * 0.02}px)`,
             }}
           >
             <Card className="glass-card border-red-500/20">

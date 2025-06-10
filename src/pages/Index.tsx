@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import HeroSection from "../components/HeroSection";
 import ServicesSection from "../components/ServicesSection";
 import ContactSection from "../components/ContactSection";
+import Footer from "../components/Footer";
 import { SmoothCursor } from "@/components/ui/smooth-cursor";
 import { Pointer } from "@/components/magicui/pointer";
 
@@ -48,8 +49,10 @@ const Index: React.FC = () => {
           <ContactSection />
         </main>
 
+        <Footer />
+
         {/* Footer */}
-        <footer className="bg-black border-t border-white/10 py-8">
+        {/* <footer className="bg-black border-t border-white/10 py-8">
           <div className="container mx-auto px-6 text-center">
             <div className="text-2xl font-bold gradient-text mb-4">
               IMPAXION
@@ -59,7 +62,7 @@ const Index: React.FC = () => {
               precision.
             </p>
           </div>
-        </footer>
+        </footer> */}
         <SmoothCursor />
         {/* <Pointer /> */}
       </div>
